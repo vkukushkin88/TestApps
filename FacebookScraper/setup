@@ -1,0 +1,57 @@
+#!/bin/bash
+
+usage="$(basename "$0") [-h] [-s s] -- set-up environment for Facebook Scraper
+
+where:
+    -h  show this help text
+    -s  set virtualenv source dir (default: .)"
+
+VENV_SOURCE='.'
+while getopts ':hs:' option; do
+  case "$option" in
+    h) echo "$usage"
+       exit
+       ;;
+    s) VENV_SOURCE=$OPTARG
+       ;;
+    :) printf "missing argument for -%s\n" "$OPTARG" >&2
+       echo "$usage" >&2
+       exit 1
+       ;;
+   \?) printf "illegal option: -%s\n" "$OPTARG" >&2
+       echo "$usage" >&2
+       exit 1
+       ;;
+  esac
+done
+shift $((OPTIND - 1))
+
+
+function checklastcode {
+    status=$?
+    if [ $status -ne 0 ]; then
+        echo -e "\033[0;31mFailed to install environment for Facebook Scraper $1\033[0m" >&2
+        exit 1
+    fi
+}
+
+
+setup_dir=$(dirname "$BASH_SOURCE")
+
+pip3 install virtualenv
+checklastcode
+virtualenv -p python3 $VENV_SOURCE/facebook_scraper_venv
+checklastcode
+source $VENV_SOURCE/facebook_scraper_venv/bin/activate
+checklastcode
+pip3 install -r ./requirements.txt
+checklastcode
+
+echo ""
+echo -e "\033[0;32mSuccessful installed environment for Facebook Scraper\033[0m"
+echo ""
+echo -e "\033[0;37mFor future work please activate virtualenv using command:\033[0m"
+echo -e "    \033[0;37m> source $VENV_SOURCE/facebook_scraper_venv/bin/activate\033[0m"
+echo ""
+echo ""
+

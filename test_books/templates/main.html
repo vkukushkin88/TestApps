@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block scripts %}
+<script type="text/javascript" src=" http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.6.4.min.js"></script>
+<script type="text/javascript" src="http://jzaefferer.github.com/jquery-validation/jquery.validate.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/book.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+<script>
+  $(document).ready(function(){
+    loadTables();
+  });
+  </script>
+  
+    <table style="margin: 30px;">
+	<tr style="margin: 30px;">
+	<td style="margin: 30px; vertical-align: top;">
+		<p class="content_header">Authors</p>
+		<hr align="center" noshade size="1" width="98%" color="#B0B0B0">
+		<div id="authors_table"></div>
+		<div class="buttons">
+			<p>
+				<button id="new_btn_author" onclick="newAuthor();" type="button">Add New</button>
+				<button id="edit_btn_author" onclick="editAuthor();" disabled="" type="button">Edit Selected</button>
+				<button id="delete_btn_author" onclick="deleteAuthor();" disabled="" type="button">Delete Selected</button>
+			</p>
+		</div>
+		<div id="author_editor" style="display: none">
+			<form id="edit_author_form" method="POST">
+				<table id="author_editor_fields">
+					<tr>
+						<td>
+							<label name="author_name" for="author_name"><b>Name</b></label>
+						</td>
+						<td>
+							<input name="author_name" id="author_name" style="width: 200px;">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label name="author_surname" for="author_surname"><b>Surname</b></label>
+						</td>
+						<td>
+							<input name="author_surname" id="author_surname" style="width: 200px;">
+						</td>
+					</tr>
+				</table>
+				<input type="hidden" id="author_id" value="">
+				<div class="buttons">
+					<p>
+						<input id="save_btn_author" type="submit" value="Save">
+						<input id="cancel_btn_author" onclick="cancelAuthor();" type="reset" value="Cancel">
+					</p>
+				</div>
+			</form>
+		</div>
+	</td>
+	<td style="margin: 30px; padding-left: 30px; vertical-align: top;">
+		<p class="content_header">Books</p>
+		<hr align="center" noshade size="1" width="98%" color="#B0B0B0">
+		<div id="books_table"></div>
+		<div class="buttons">
+			<p>
+				<button id="new_btn_book" onclick="newBook();" type="button">Add New</button>
+				<button id="edit_btn_book" onclick="editBook();" disabled="" type="button">Edit Selected</button>
+				<button id="delete_btn_book" onclick="deleteBook();" disabled="" type="button">Delete Selected</button>
+			</p>
+		</div>
+		<div id="book_editor" style="display: none">
+			<form id="edit_book_form" method="POST">
+				<table id="book_editor_fields">
+					<tr>
+						<td>
+							<label name="book_name" for="book_name"><b>Name</b></label>
+						</td>
+						<td>
+							<input name="book_name" id="book_name" style="width: 200px;">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label name="book_author" for="book_author"><b>Select Book's Author</b></label>
+						</td>
+						<td>
+							<div id="book_author_div"></div>
+						</td>
+					</tr>
+				</table>
+				<input type="hidden" id="book_id" value="">
+				<div class="buttons">
+					<p>
+						<input id="save_btn_book" type="submit" value="Save"/>
+						<input id="cancel_btn_book" onclick="cancelBook();" type="reset" value="Cancel"/>
+					</p>
+				</div>
+			</form>
+		</div>
+	</td>	
+	</tr>
+	</table>
+{% endblock %}	

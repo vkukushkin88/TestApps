@@ -1,0 +1,213 @@
+@CHARSET "ISO-8859-1";
+
+/*************************
+Min page configuration
+*************************/
+body {
+overflow-x: hidden;
+overflow-y: scroll;
+}
+
+a:link {
+    color: #C3C3C3;
+}
+
+a:visited {
+    color: #DBC271;
+}
+
+a:hover {
+    color: #A5A5A5;
+}
+
+a:active {
+    color: #C3C3C3;
+}
+
+.main_page {
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    background: none;
+    font-family: Verdana, 'Trebuchet MS', Arial, Helvetica, Sans-serif;
+    font-size: 12px;
+    color: #000000;
+}
+
+.head_ribbon {
+    background: #6649B3;
+    color: #ffffff;
+    height: 30px;
+    top: 0px;
+    left: 0;
+    right: 0;
+    border: 1px solid #C3C3C3;
+}
+
+.head_ribbon span{
+    margin: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 13px;
+}
+
+.main_signature{
+    margin: 20px;
+    color: #6649B3;
+    font-size: 30px;
+}
+
+.main_content {
+    position: relative;
+    width: 100%;
+}
+
+.body_content {
+    position: relative;
+    background: #F5F5F5;
+    text-align: left;
+    border: 1px solid #C3C3C3;
+    padding: 10px;
+}
+
+.content_header {
+    position:relative;
+    left: 20px;
+    color: #151B54;
+    font-size: 18px;
+    margin-bottom: 0px;
+    width: auto;
+    }
+
+
+/****************************
+Buttons
+*****************************/
+.buttons {
+    top: 10px;
+    font-family: Arial, Tahoma;
+    font-size: 14px;
+}
+
+.buttons button {
+    background: #6649B3;
+    border: 1px solid #C3C3C3;
+    color: #FFFFFF;
+}
+
+.buttons button[disabled] {
+    background: #8E71DB;
+    border: 1px solid #C3C3C3;
+    color: #C3C3C3;
+}
+
+.buttons button:hover {
+    background: #8E71DB;
+    border: 1px solid #C3C3C3;
+}
+
+.buttons input {
+    background: #6649B3;
+    border: 1px solid #C3C3C3;
+    color: #FFFFFF;
+}
+
+.buttons input:hover {
+    background: #8E71DB;
+    border: 1px solid #C3C3C3;
+}
+
+
+/*********************************
+Table
+*********************************/
+.table_field {
+    width: auto;
+    padding-left: 30px;
+}
+
+table.tbl {
+    background: white;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border: 1px solid #C3C3C3;
+}
+
+table.tbl th.tbl_header {
+    background: #6649B3;
+    text-align: center;
+    border: 1px solid #C3C3C3;
+    padding: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+    color: #FFFFFF;
+}
+
+table.tbl tr {
+    border: 1px solid #999999;
+}
+
+table.tbl tr.tbl_tr_odd {
+    background-color: #FFFFFF;
+}
+
+table.tbl tr.tbl_tr_odd:hover {
+    background-color: #987BCD;
+}
+
+table.tbl tr.tbl_tr_odd.selected {
+    background-color: #987BCD
+}
+
+table.tbl tr.tbl_tr_even {
+    background-color: #DEC1FF;
+}
+
+table.tbl tr.tbl_tr_even:hover {
+    background-color: #987BCD;
+}
+
+table.tbl tr.tbl_tr_even.selected {
+    background-color: #987BCD;
+}
+
+table.tbl td.tbl_td {
+    white-space: nowrap;
+    text-align: left;
+    border-left: 1px solid #999999;
+    border-right: 1px solid #999999;
+    padding: 3px;
+    padding-left: 5px;
+}
+
+
+/*******************************
+Validate form
+********************************/
+label.error {
+    color: red;
+    font-style: italic
+}
+
+div.error {
+	display: none;
+}
+
+input {
+	border: 1px solid #C3C3C3;
+}
+
+input.checkbox {
+	border: none;
+}
+
+input:focus { 
+	border: 1px dotted black;
+}
+
+input.error {
+	border: 1px dotted red;
+} 
+
+/*EOF*/

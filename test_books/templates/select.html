@@ -1,0 +1,6 @@
+<select {% if select.id %} id="{{select.id}}" {%endif%}">
+	<option value="0"></option>
+	{% for option in select.options %}
+	<option id="{{option.id}}" value="{{option.text}}">{{option.text}}</option>
+	{% endfor%}
+</select>

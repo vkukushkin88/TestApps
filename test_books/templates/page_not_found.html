@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Page not found{% endblock %}
+{% block body %}
+  <h1>Oops! Page you are looking for not exists.</h1>
+  <p>Sorry, we are really sorry :( 
+  <p><a href="{{ url_for('index_page') }}">Home page</a>
+{% endblock %}

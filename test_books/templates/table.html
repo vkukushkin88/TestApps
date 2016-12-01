@@ -1,0 +1,18 @@
+<table class="tbl" {% if table.id %} id="{{table.id}}" {% endif %}>
+{% if table.headers %}
+	<thead>
+	{% for header in table.headers %}
+		<th class="tbl_header">{{header}}</th>
+	{% endfor %}
+	</thead>
+{% endif %}
+	<tbody>
+	{% for row in table.rows %}
+		<tr class="{{ loop.cycle('tbl_tr_odd', 'tbl_tr_even') }}" {% if row.id %} id="{{row.id}}" {% endif %}>
+			{% for cell in row.cells %}
+			<td class="tbl_td">{{cell}}</td>
+			{% endfor %}
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
