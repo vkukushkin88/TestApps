@@ -55,7 +55,7 @@ class FBUserProcessorTest(unittest.TestCase):
             TEST_POST_DATA, TEST_POST_DATA, TEST_EMPTY_DATA
         ]
         self.processor.process_all()
-        self.mock_data_writer.assert_called_once()
+        self.mock_data_writer.push.assert_called_with('%s, 2011-03-12' % (TEST_UD2))
 
 
 if __name__ == '__main__':
