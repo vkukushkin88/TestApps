@@ -1,4 +1,8 @@
 
+""" This filer contains functions and classes related to generating XML files
+and creating zip archives. Works in multiprocess mode.
+"""
+
 import os
 import uuid
 import string
@@ -19,25 +23,33 @@ def load_template(file_path):
 
 
 def generate_zip_files_in_processes(args):
+    """Run generation ZIP archives one per process from process pool
+
+    @param `args`: program launching arguments;
+    """
     mp = MultiprocessingWrapper()
     mp.pool.map(generate_zip_files, ((args, idx) for idx in xrange(NUMBER_OF_ZIP_FILES)))
     mp.pool.close()
     mp.pool.join()
 
 
-def generate_zip_files(args):
-    _args, zip_idx = args
+def generate_zip_files(_args):
+    """Generate zip file
+
+    @param `_args` (args, zip_idx): program launching arguments, zip file index number;
+    """
+    args, zip_idx = _args
     xml_generator = XMLGenerator(
-        tmpl=load_template('./templates/main.tpl'),
+        tmpl=load_template(TEMPLATE_PATH),
         number_range=RANDOM_LEVEL_NUMBER_LIMITS,
         string_count_range=RANDOM_OBJECTS_LIMITS,
-        args=_args
+        args=args
     )
 
-    zip_filename = os.path.join(_args.output_dst, str(zip_idx) + '.zip')
+    zip_filename = os.path.join(args.output_dst, str(zip_idx) + '.zip')
 
-    if not os.path.exists(_args.output_dst):
-        os.makedirs(_args.output_dst)
+    if not os.path.exists(args.output_dst):
+        os.makedirs(args.output_dst)
 
     zipf = zipfile.ZipFile(zip_filename, 'w', zipfile.ZIP_DEFLATED)
 
@@ -49,6 +61,8 @@ def generate_zip_files(args):
 
 class XMLGenerator(object):
 
+    """Class for generation XML files with predefined structure with random values"""
+
     def __init__(self, tmpl, number_range, string_count_range, args, string_len_range=(2, 16)):
         engine = Engine(loader=DictLoader({'x': unicode(tmpl)}), extensions=[CoreExtension()])
         self.args = args
@@ -59,6 +73,11 @@ class XMLGenerator(object):
         self.string_len_range = string_len_range
 
     def generate_xml_file(self):
+        """Generate XML file
+
+        @return:
+            XML filename and XML file data.
+        """
         unique_id = unicode(uuid.uuid4())
         xml_content = self.tmpl.render({
             'uniq_string_value': unique_id,

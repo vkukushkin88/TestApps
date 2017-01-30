@@ -6,5 +6,10 @@ NUMBER_OF_ZIP_FILES = 50
 RANDOM_LEVEL_NUMBER_LIMITS = (0, 100)
 RANDOM_OBJECTS_LIMITS = (1, 10)
 
+TEMPLATE_PATH = './templates/main.tpl'
+
 DEFAULT_ZIP_PATH = 'zips'
 TMP_PATH = 'zip_tmp'
+
+ID_LEVEL_CSV = 'id_level.csv'
+ID_NAME_CSV = 'id_name.csv'

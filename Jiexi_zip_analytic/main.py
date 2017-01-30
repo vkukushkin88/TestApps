@@ -23,8 +23,6 @@ def analyze(args):
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-t', '--tmp-folder', default=TMP_PATH)
-    parser.add_argument('-c', '--clean', default=True)
 
     subparsers = parser.add_subparsers()
     parser_generate = subparsers.add_parser('generate', help='Generate zips')
@@ -33,8 +31,14 @@ def parse_args():
     parser_generate.set_defaults(func=generate)
 
     analyze_generate = subparsers.add_parser('analyze', help='Analyze zips')
-    analyze_generate.add_argument('-i', '--input_src', help='Path to zip files')
-    analyze_generate.add_argument('-o', '--output-dst', help='Destination where to store csv files')
+    analyze_generate.add_argument('-i', '--input-src', help='Path to zip files',
+        default=DEFAULT_ZIP_PATH)
+    analyze_generate.add_argument('-o', '--output-dst', help='Destination where to store csv files',
+        default='.')
+    analyze_generate.add_argument('-l', '--id-level-csv', help='Name of csv file with `id, level` data',
+        default=ID_LEVEL_CSV)
+    analyze_generate.add_argument('-n', '--id-name-csv', default=ID_NAME_CSV,
+        help='Name of csv file with ` id, object_name` data')
     analyze_generate.set_defaults(func=analyze)
     return parser.parse_args()
 

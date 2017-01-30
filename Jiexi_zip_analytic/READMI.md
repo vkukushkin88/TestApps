@@ -1,4 +1,5 @@
-This is test program for generating random data and than analyze it.
+This is test program for generating random XML data with predefined structure,
+store it to zip archives and than analyze it.
 
 
 
@@ -15,13 +16,14 @@ Installation:
 
 Usage:
 
-Launch main.py:
+Launch file generation:
 
- $ python main.py
+ $ python main.py generate
 
-To see coverage by UnitTests just run show_coverage.sh command:
+ Launch file analyzing:
 
- $ sh show_coverage.sh
+ $ python main.py analyze
+
 
 * Note:
  For more detains you can run main.py with -h option
