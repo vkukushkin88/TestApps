@@ -6,9 +6,8 @@ from src.fb_data import FBUserCreationProcessor
 
 
 TEST_UD1 = 'fbid123'
-TEST_UD2 = 'fbid124'
 TEST_TOKEN1 = 'asdaarewfr34'
-TEST_TOKEN2 = '5yjtyj56utrs'
+TEST_UNAME1 = 'Name1'
 TEST_PHOTOS_DATA = {'paging':
     {'cursors':
         {'before': 'NDUzMzgyNDY0Njk1MTUx', 'after': 'NDUzMzgwNDYxMzYyMDE4'},},
@@ -32,30 +31,28 @@ class FBUserProcessorTest(unittest.TestCase):
 
     def setUp(self):
         self.stab_csv_data = [
-            (TEST_UD1, TEST_TOKEN1),
-            (TEST_UD2, TEST_TOKEN2)
+            (TEST_UD1, TEST_TOKEN1, TEST_UNAME1)
         ]
         self.mock_data_writer = MagicMock()
-        self.mock_get_object = Mock()
-        self.mock_fbclient = Mock()
-        self.mock_fbclient.get_object = self.mock_get_object
-        self.mock_GraphAPI = Mock()
-        self.mock_GraphAPI.return_value = self.mock_fbclient
+        self.mock_request = Mock()
+        self.mock_session = Mock()
+        self.mock_session.request.return_value = self.mock_request
         self.processor = FBUserCreationProcessor(
             uaccess_data_keeper=self.stab_csv_data,
             result_data_keeper=self.mock_data_writer,
             max_workers=MAX_WORKERS
         )
 
-    @patch('src.fb_data.facebook', create=True)
-    def test_process_all(self, facebook):
-        facebook.GraphAPI = self.mock_GraphAPI
-        self.mock_get_object.side_effect = [
+    @patch('src.fb_data.facebook.requests', create=True)
+    def test_process_all(self, requests):
+        requests.Session.return_value = self.mock_session
+        self.mock_request.headers = {'content-type': ['json']}
+        self.mock_request.json.side_effect = [
             TEST_PHOTOS_DATA, TEST_PHOTOS_DATA, TEST_EMPTY_DATA,
             TEST_POST_DATA, TEST_POST_DATA, TEST_EMPTY_DATA
         ]
         self.processor.process_all()
-        self.mock_data_writer.push.assert_called_with('%s, 2011-03-12' % (TEST_UD2))
+        self.mock_data_writer.push.assert_called_with('%s, 2012-07-26' % (TEST_UNAME1))
 
 
 if __name__ == '__main__':

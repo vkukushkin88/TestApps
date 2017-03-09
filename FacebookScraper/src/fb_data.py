@@ -5,7 +5,7 @@ import datetime
 import urllib.parse as urlparse
 from concurrent.futures import as_completed, ThreadPoolExecutor
 
-import facebook
+import src.facebook as facebook
 import settings
 
 
@@ -38,11 +38,11 @@ class FBUserCreationProcessor:
     def process_all(self):
         """Lopping all users in threads find it approximate account creation dates."""
         with ThreadPoolExecutor(max_workers=self._max_workers) as executor:
-            future_to = {executor.submit(self._prosess_user, fbid, token):
-                         (fbid, token) for (fbid, token) in self._uaccess_data_keeper}
+            future_to = {executor.submit(self._prosess_user, fbid, token, username):
+                         (fbid, token, username) for (fbid, token, username) in self._uaccess_data_keeper}
 
             for future in as_completed(future_to):
-                fbid, token = future_to[future]
+                fbid, token, username = future_to[future]
                 try:
                     data = future.result()
                 except Exception as exc:
@@ -52,24 +52,25 @@ class FBUserCreationProcessor:
                 else:
                     self._result_data_keeper.push(data)
 
-    def _prosess_user(self, fbid, token):
+    def _prosess_user(self, fbid, token, username):
         """Find user creation time by fbib + UserAccessToken.
         For determining approximate account creation date uses method defined
         by `__search_methods`.
 
         @param fbid: Facebook User's ID
         @param token: Facebook User Access Token
+        @param username: User name
 
         return:
             String '<fbid>, <account_creation_date>'
         """
         reg_date = None
         errors = []
-        fbclient = facebook.GraphAPI(access_token=token, version='2.7')
+        fbclient = facebook.FBGraphAPI(access_token=token)
         for method in self.__search_methods:
             try:
                 returden_date = method(fbclient, fbid)
-            except facebook.GraphAPIError as err:
+            except facebook.FBGraphAPIError as err:
                 errors.append('API Error, %s' % (err))
             except Exception as err:
                 errors.append('Unexpected error, %s' % (err))
@@ -85,7 +86,7 @@ class FBUserCreationProcessor:
             reg_date = 'Could not determine registration data possible to ' \
                        'lack of permissions'
 
-        return settings.RESULT_FORMAT % ({'fbid': fbid, 'creation_date': reg_date})
+        return settings.RESULT_FORMAT % ({'uname': username, 'creation_date': reg_date})
 
     def _search_by_posts(self, fbclient, fbid, **kwargs):
         """Defines search by uses posts logic.
@@ -94,7 +95,7 @@ class FBUserCreationProcessor:
         This is recursive function to loop through FB response pages.
         """
         oldest_date = None
-        posts = fbclient.get_object('%s/posts' % (fbid), **kwargs)
+        posts = fbclient.get('%s/posts' % (fbid), **kwargs)
         if posts['data']:
             oldest_date = self.__find_oldest_date(
                 oldest_date,
@@ -116,7 +117,7 @@ class FBUserCreationProcessor:
         This is recursive function to loop through FB response pages.
         """
         oldest_date = None
-        photos = fbclient.get_object('%s/photos/uploaded' % (fbid), **kwargs)
+        photos = fbclient.get('%s/photos/uploaded' % (fbid), **kwargs)
         if photos['data']:
             oldest_date = self.__find_oldest_date(
                 oldest_date,
