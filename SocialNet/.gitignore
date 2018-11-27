@@ -1,0 +1,22 @@
+.DS_store
+staticroot/
+media/
+venv/
+wsgi.py
+celerybeat-schedule.db
+settings_local.py
+# Scss stuff
+# *.map
+info.log
+cvideodb
+*.rdb
+db.sqlite3
+# Pycharm and IDEA
+/.idea
+# Python
+*.pyc
+applications/create_applications.py
+
+cvideo/etc/
+
+__pycache__/
